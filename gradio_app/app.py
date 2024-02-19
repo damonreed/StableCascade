@@ -1,5 +1,6 @@
 # @title Load models
 import torch
+import uuid
 from diffusers import StableCascadeDecoderPipeline, StableCascadePriorPipeline
 
 device = torch.device("cpu")
@@ -117,7 +118,10 @@ def generate(
         num_inference_steps=decoder_num_inference_steps,
         guidance_scale=decoder_guidance_scale,
     )
-    print("decoder_output:", decoder_output)
+
+    for image in decoder_output:
+        image.save(f"/users/shared/images/{uuid.uuid4()}.png")
+
     return decoder_output
 
 
